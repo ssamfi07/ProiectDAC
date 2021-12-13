@@ -4,17 +4,17 @@ var config = require('../config/dbConfig')
 
 var functions = {
     addNewUser: function(req, res) {
-        if ((!req.body.name) || (!req.body.password)) {
+        if ((!req.body.username) || (!req.body.password)) {
             res.json({ success: false, message: 'Enter all fields' }) // make the user fill all the fields
         } else {
-            User.findOne({ name: req.body.name },
+            User.findOne({ username: req.body.username },
                 function(err, user) {
                     if (err) throw err;
                     if (user) { // username already present, don't allow to create new user
                         res.json({ success: false, message: 'Username already present' });
                     } else {
                         var newUser = new User({
-                            name: req.body.name,
+                            username: req.body.username,
                             password: req.body.password
                         });
                         newUser.save(function(err, newUser) { // check if user is status to the database 
@@ -31,7 +31,7 @@ var functions = {
     },
     login: function(req, res) {
         User.findOne({
-            name: req.body.name
+            username: req.body.username
         }, function(err, user) {
             if (err) throw err;
             if (!user) res.status(403).send({ success: false, message: 'Authentication failed, user not found' })
@@ -52,7 +52,7 @@ var functions = {
         if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
             var token = req.headers.authorization.split(' ')[1];
             var decodedToken = jwt.decode(token, config.secret);
-            return res.json({ success: true, message: 'Hello ' + decodedToken.name });
+            return res.json({ success: true, message: 'Hello ' + decodedToken.username });
         } else {
             return res.json({ success: false, message: 'No headers' });
         }
