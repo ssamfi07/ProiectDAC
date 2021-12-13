@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt');
-const { post } = require('../routes');
+const { post } = require('../routes/router');
 var userSchema = new Schema({
     name: {
         type: String,

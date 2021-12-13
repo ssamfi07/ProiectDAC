@@ -4,7 +4,7 @@ const cors = require('cors')
 const connectDB = require('./config/db.js')
 const passport = require('passport')
 const bodyParser = require('body-parser')
-const routes = require('./routes/index')
+const routes = require('./routes/router')
 
 // once server starts the connection to MongoDB is trying to be established
 connectDB()
@@ -19,6 +19,8 @@ app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(routes)
+app.use(passport.initialize())
+require('./config/passport')(passport)
 
 const PORT = process.env.PORT || 3000
 

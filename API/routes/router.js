@@ -18,8 +18,12 @@ router.post('/adduser', actions.addNewUser)
 // @route POST /login
 router.post('/login', actions.login)
 
+// @desc get user information
+// @route GET /getInfo
+router.get('/getInfo', actions.getInfo)
+
 // @desc Show all users -- dev purpose only
 // @route GET /users
-router.post('/users', actions.users)
+router.get('/users', actions.users)
 
 module.exports = router
