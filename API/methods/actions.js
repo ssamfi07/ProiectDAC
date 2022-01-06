@@ -106,9 +106,13 @@ var functions = {
     pins: function(req, res) {
         Pins.find({}, function(err, pins) {
             if (err) {
-                res.status(404).send('Not found')
+                res.sendStatus(404)
             } else {
-                res.send({ pins: pins }).status(200)
+                if (pins.length > 0) {
+                    res.send({ pins: pins }).status(200)
+                } else {
+                    res.sendStatus(404)
+                }
             }
         });
     }
