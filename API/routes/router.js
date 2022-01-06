@@ -12,7 +12,7 @@ router.get('/dashboard', (req, res) => {
 
 // @desc Adding a new user
 // @route POST /adduser
-router.post('/adduser', actions.addNewUser)
+router.post('/register', actions.addNewUser)
 
 // @desc Authenticating a user
 // @route POST /login
@@ -25,5 +25,13 @@ router.get('/getInfo', actions.getInfo)
 // @desc Show all users -- dev purpose only
 // @route GET /users
 router.get('/users', actions.users)
+
+// @desc post new pin
+// @route POST /newPin
+router.post('/newPin', actions.addPin)
+
+// @desc get all pins -- for map
+// @route GET /pins
+router.get('/pins', actions.pins)
 
 module.exports = router

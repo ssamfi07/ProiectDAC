@@ -1,4 +1,5 @@
 var User = require('../models/user')
+var Pins = require('../models/pin')
 var jwt = require('jwt-simple')
 var config = require('../config/dbConfig')
 
@@ -17,7 +18,7 @@ var functions = {
                             username: req.body.username,
                             password: req.body.password
                         });
-                        newUser.save(function(err, newUser) { // check if user is status to the database 
+                        newUser.save(function(err, newUser) { // check if user is daved in the db 
                             if (err) {
                                 res.json({ success: false, message: 'Failed to save' });
                             } else {
@@ -61,6 +62,55 @@ var functions = {
         User.forEach({}, function(res, user) {
             res.status(200).send({ username: user.username, password: user.password })
         })
+    },
+    addPin: function(req, res) {
+        if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
+            var token = req.headers.authorization.split(' ')[1];
+            var decodedToken = jwt.decode(token, config.secret, 0);
+
+            if (decodedToken.username != undefined) {
+                if ((!req.body.location) || (!req.body.title)) {
+                    res.json({ success: false, message: 'Enter all required fields' }) // make the user fill all the fields
+                } else {
+                    if (!req.body.description) {
+                        var newPin = new Pins({
+                            username: decodedToken.username,
+                            location: req.body.location,
+                            title: req.body.title,
+                            description: ""
+                        });
+                    } else {
+                        var newPin = new Pins({
+                            username: decodedToken.username,
+                            location: req.body.location,
+                            title: req.body.title,
+                            description: req.body.description
+                        });
+                    }
+
+                    newPin.save(function(err) { // check if pin is saved in the db
+                        if (err) {
+                            res.json({ success: false, message: 'Failed to save pin' });
+                        } else {
+                            res.json({ success: true, message: 'Successfully saved pin' });
+                        }
+                    })
+                }
+            } else {
+                res.json({ success: false, message: 'Failed to read decoded info' });
+            }
+        } else {
+            res.json({ success: false, message: 'Failed to get token' });
+        }
+    },
+    pins: function(req, res) {
+        Pins.find({}, function(err, pins) {
+            if (err) {
+                res.status(404).send('Not found')
+            } else {
+                res.send({ pins: pins }).status(200)
+            }
+        });
     }
 }
 module.exports = functions
