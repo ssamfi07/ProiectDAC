@@ -76,7 +76,7 @@ class _HomePageState extends State<HomePage> {
                   // Icons.add_shopping_cart,
                   Icons.local_grocery_store,
                 ),
-                title: const Text('Remove Adds'),
+                title: const Text('Remove Ads'),
                 onTap: () {
                   // Update the state of the app.
                   // ...

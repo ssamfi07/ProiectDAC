@@ -12,7 +12,7 @@ class MessagesPage extends StatelessWidget {
         // ),
         body: Center(
           child: Text(
-            'Messages',
+            'Pins',
             style: TextStyle(fontSize: 48),
           ),
         ),
