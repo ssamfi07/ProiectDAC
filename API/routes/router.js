@@ -34,4 +34,12 @@ router.post('/newPin', actions.addPin)
 // @route GET /pins
 router.get('/pins', actions.pins)
 
+// @desc get pins from logged in user -- for messages
+// @route GET /pinsFromUser
+router.get('/pinsFromUser', actions.pinsFromUser)
+
+// @desc get pins from title -- for search purposes
+// @route GET /pinsFromTitle
+router.get('/pinsFromTitle', actions.pinsFromTitle)
+
 module.exports = router

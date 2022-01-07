@@ -115,6 +115,40 @@ var functions = {
                 }
             }
         });
+    },
+    pinsFromUser: function(req, res) {
+        if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
+            var token = req.headers.authorization.split(' ')[1];
+            var decodedToken = jwt.decode(token, config.secret, 0);
+
+            if (decodedToken.username != undefined) {
+                Pins.find({ username: decodedToken.username }, function(err, pins) {
+                    if (err) {
+                        res.sendStatus(400);
+                    } else if (pins.length > 0) {
+                        res.send({ pins: pins }).status(200);
+                    } else {
+                        res.sendStatus(404);
+                    }
+                })
+            } else {
+                res.json({ success: false, message: 'Failed to read decoded info' });
+            }
+        } else {
+            res.json({ success: false, message: 'Failed to get token' });
+        }
+    },
+    pinsFromTitle: function(req, res) {
+        console.log(req.body.title);
+        Pins.find({ title: req.body.title }, function(err, pins) {
+            if (err) {
+                res.sendStatus(400);
+            } else if (pins.length > 0) {
+                res.send({ pins: pins }).status(200);
+            } else {
+                res.sendStatus(404);
+            }
+        })
     }
 }
 module.exports = functions
