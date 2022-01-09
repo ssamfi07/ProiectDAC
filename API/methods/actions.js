@@ -22,7 +22,7 @@ var functions = {
                             if (err) {
                                 res.json({ success: false, message: 'Failed to save' });
                             } else {
-                                res.json({ success: true, message: 'Successfully saved' });
+                                res.json({ success: true, message: 'Successfully saved', user: newUser });
                             }
                         })
                     }
@@ -37,10 +37,10 @@ var functions = {
             if (err) throw err;
             if (!user) res.status(403).send({ success: false, message: 'Authentication failed, user not found' })
             else {
-                user.comparePassword(req.body.password, function(err, isMatch) {
+                user.comparePassword(req.body.password, async function(err, isMatch) {
                     if (isMatch && !err) // send token
                     {
-                        var jwtToken = jwt.encode(user, config.secret);
+                        var jwtToken = await jwt.encode(user, config.secret);
                         res.json({ success: true, token: jwtToken })
                     } else {
                         return res.status(403).send({ success: false, message: 'Authentication failed, wrong password' });
@@ -63,10 +63,10 @@ var functions = {
             res.status(200).send({ username: user.username, password: user.password })
         })
     },
-    addPin: function(req, res) {
+    addPin: async function(req, res) {
         if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
             var token = req.headers.authorization.split(' ')[1];
-            var decodedToken = jwt.decode(token, config.secret, 0);
+            var decodedToken = await jwt.decode(token, config.secret, 0);
 
             if (decodedToken.username != undefined) {
                 if ((!req.body.location) || (!req.body.title)) {
@@ -88,11 +88,11 @@ var functions = {
                         });
                     }
 
-                    newPin.save(function(err) { // check if pin is saved in the db
+                    await newPin.save(function(err) { // check if pin is saved in the db
                         if (err) {
                             res.json({ success: false, message: 'Failed to save pin' });
                         } else {
-                            res.json({ success: true, message: 'Successfully saved pin' });
+                            res.json({ success: true, message: 'Successfully saved pin', pin: newPin });
                         }
                     })
                 }
@@ -116,10 +116,10 @@ var functions = {
             }
         });
     },
-    pinsFromUser: function(req, res) {
+    pinsFromUser: async function(req, res) {
         if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
             var token = req.headers.authorization.split(' ')[1];
-            var decodedToken = jwt.decode(token, config.secret, 0);
+            var decodedToken = await jwt.decode(token, config.secret, 0);
 
             if (decodedToken.username != undefined) {
                 Pins.find({ username: decodedToken.username }, function(err, pins) {
@@ -139,7 +139,6 @@ var functions = {
         }
     },
     pinsFromTitle: function(req, res) {
-        console.log(req.body.title);
         Pins.find({ title: req.body.title }, function(err, pins) {
             if (err) {
                 res.sendStatus(400);

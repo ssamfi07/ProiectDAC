@@ -1,7 +1,8 @@
 const mongoose = require('mongoose')
 const dbConfig = require('./dbConfig.js')
 
-const connectDB = async() => {
+async function connectDB() {
+
     try {
         const conn = await mongoose.connect(dbConfig.database, {
             useNewUrlParser: true,
