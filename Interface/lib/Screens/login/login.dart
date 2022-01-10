@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:proiect_dac/myapp/Screens/register/register.dart';
-import 'package:proiect_dac/myapp/components/background.dart';
+import 'package:proiect_dac/Screens/register/register.dart';
+import 'package:proiect_dac/components/background.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
