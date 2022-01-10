@@ -1,6 +1,8 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:proiect_dac/myapp/Screens/login/login.dart';
+import 'package:proiect_dac/myapp/Screens/register/register.dart';
 import 'package:proiect_dac/myapp/home_screen/pages/home_page.dart';
 import 'package:proiect_dac/myapp/home_screen/pages/map_page.dart';
 import 'package:proiect_dac/myapp/home_screen/pages/messages_page.dart';
@@ -57,6 +59,8 @@ class _HomePageState extends State<HomePage> {
                 onTap: () {
                   // Update the state of the app.
                   // ...
+                  index = 4;
+                  print('page index is: ' + index.toString());
                 },
               ),
               ListTile(
@@ -147,6 +151,10 @@ class _HomePageState extends State<HomePage> {
         return const MessagesPage();
       case 3:
         return const SettingsPage();
+      case 4:
+        return const LoginScreen();
+      case 5:
+        return RegisterScreen();
       default:
         return const MyHomePage();
     }
