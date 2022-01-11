@@ -27,7 +27,12 @@ class RegisterScreenState extends State<Register> {
     String email = emailController.text;
 
     var url = Uri.parse("http://localhost:3000/register");
-    var body = {'name': name, 'username': username, 'email': email, 'password': password};
+    var body = {
+      'name': name,
+      'username': username,
+      'email': email,
+      'password': password
+    };
 
     var response = await http.post(url, body: body);
 

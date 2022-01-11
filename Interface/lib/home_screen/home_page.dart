@@ -60,8 +60,7 @@ class _HomePageState extends State<HomePage> {
                 title: const Text(
                   'Settings',
                 ),
-                onTap: () {
-                },
+                onTap: () {},
               ),
               ListTile(
                 leading: const Icon(
@@ -136,7 +135,7 @@ class _HomePageState extends State<HomePage> {
       case 1:
         // return const MapPage();
         // return SimpleMapWithPopups();
-        return const MyApp();
+        return MapScreen();
       case 2:
         return const MessagesPage();
       case 3:
