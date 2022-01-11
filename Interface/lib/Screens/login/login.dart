@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:proiect_dac/Screens/register/register.dart';
 import 'package:proiect_dac/components/background.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:proiect_dac/pages/map_page2.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -10,22 +12,40 @@ class Login extends StatefulWidget {
 
 class LoginScreenState extends State<Login> {
 
+
   // Getting value from TextField widget.
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
 
   Future userLogin() async {
-    String username = usernameController.text;
-    String password = passwordController.text;
+    // storage
+    final storage = new FlutterSecureStorage();
+    // check if user is already logged index
+    var isAlreadyLogged = await storage.read(key: "token");
 
-    var url = Uri.parse("http://localhost:3000/login");
-    var body = {'username': username, 'password': password};
+    if(isAlreadyLogged != null)
+    {
+      String username = usernameController.text;
+      String password = passwordController.text;
 
-    var response = await http
-        .post(url, body: {'username': username, 'password': password});
+      var url = Uri.parse("http://localhost:3000/login");
+      var body = {'username': username, 'password': password};
 
-    print('Response status: ${response.statusCode}');
-    print('Response body: ${response.body}');
+      var response = await http
+          .post(url, body: {'username': username, 'password': password});
+
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        
+        await storage.write(key: "token", value: response.body);
+      }
+    }
+    else
+    {
+       return SimpleMapWithPopups();
+    }
   }
 
   @override
