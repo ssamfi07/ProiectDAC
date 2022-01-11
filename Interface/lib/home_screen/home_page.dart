@@ -43,12 +43,6 @@ class _HomePageState extends State<HomePage> {
                       NetworkImage("http://tineye.com/images/widgets/mona.jpg"),
                 ),
               ),
-              // const DrawerHeader(
-              //   child: Text('Menu'),
-              //   decoration: BoxDecoration(
-              //     color: Colors.blue,
-              //   ),
-              // ),
               ListTile(
                 leading: const Icon(
                   Icons.account_box,
@@ -66,8 +60,6 @@ class _HomePageState extends State<HomePage> {
                   'Settings',
                 ),
                 onTap: () {
-                  // Update the state of the app.
-                  // ...
                 },
               ),
               ListTile(
@@ -111,13 +103,6 @@ class _HomePageState extends State<HomePage> {
           inactiveColor: inactiveColor,
           activeColor: activeColor,
         ),
-        // BottomNavyBarItem(
-        //   icon: const Icon(Icons.apps),
-        //   title: const Text('Home'),
-        //   textAlign: TextAlign.center,
-        //   inactiveColor: inactiveColor,
-        //   activeColor: activeColor,
-        // ),
         BottomNavyBarItem(
           icon: const Icon(Icons.location_on_sharp),
           title: const Text('Map'),
@@ -145,24 +130,15 @@ class _HomePageState extends State<HomePage> {
 
   buildPages() {
     switch (index) {
-      // case 0:
-      //   print(index);
-      //   return const MyHomePage();
       case 0:
         return Login();
       case 1:
-        print(index);
         // return const MapPage();
         return SimpleMapWithPopups();
       case 2:
-        print(index);
         return const MessagesPage();
       case 3:
-        print(index);
         return const SettingsPage();
-      // case 4:
-      //   print(index);
-      //   return const LoginScreen();
       default:
         return const MyHomePage();
     }

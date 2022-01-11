@@ -2,49 +2,46 @@ import 'package:flutter/material.dart';
 import 'package:proiect_dac/Screens/register/register.dart';
 import 'package:proiect_dac/components/background.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:proiect_dac/pages/map_page2.dart';
+// ignore: import_of_legacy_library_into_null_safe
+import 'package:cross_local_storage/cross_local_storage.dart';
+import 'package:proiect_dac/home_screen/home_page.dart';
 
 class Login extends StatefulWidget {
   @override
-  LoginScreenState createState() => new LoginScreenState();
+  LoginScreenState createState() => LoginScreenState();
 }
 
 class LoginScreenState extends State<Login> {
-
-
   // Getting value from TextField widget.
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
 
   Future userLogin() async {
     // storage
-    final storage = new FlutterSecureStorage();
+    LocalStorageInterface storage = await LocalStorage.getInstance();
     // check if user is already logged index
-    var isAlreadyLogged = await storage.read(key: "token");
+    // var token = storage.getString('token');
 
-    if(isAlreadyLogged != null)
-    {
-      String username = usernameController.text;
-      String password = passwordController.text;
+    String username = usernameController.text;
+    String password = passwordController.text;
 
-      var url = Uri.parse("http://localhost:3000/login");
-      var body = {'username': username, 'password': password};
+    var url = Uri.parse("http://localhost:3000/login");
+    var body = {'username': username, 'password': password};
 
-      var response = await http
-          .post(url, body: {'username': username, 'password': password});
+    var response = await http
+        .post(url, body: body);
 
-      print('Response status: ${response.statusCode}');
-      print('Response body: ${response.body}');
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
 
-      if (response.statusCode == 200) {
-        
-        await storage.write(key: "token", value: response.body);
-      }
-    }
-    else
-    {
-       return SimpleMapWithPopups();
+    await storage.setString("token", response.body);
+
+    if (response.statusCode == 200) {
+      // redirect to map page
+      Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const HomePage()));
     }
   }
 
@@ -131,7 +128,7 @@ class LoginScreenState extends State<Login> {
               child: GestureDetector(
                 onTap: () => {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => RegisterScreen()))
+                      MaterialPageRoute(builder: (context) => Register()))
                 },
                 child: const Text(
                   "Don't Have an Account? Sign up",

@@ -3,28 +3,38 @@ var Pins = require('../models/pin')
 var jwt = require('jwt-simple')
 var config = require('../config/dbConfig')
 
+function isValidEmail(email) {
+    var emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    return !!email && typeof email === 'string' &&
+        email.match(emailRegex)
+};
+
 var functions = {
     addNewUser: function(req, res) {
         if ((!req.body.username) || (!req.body.password)) {
-            res.json({ success: false, message: 'Enter all fields' }) // make the user fill all the fields
+            res.status(400).json({ success: false, message: 'Enter all fields' }) // make the user fill all the fields
         } else {
             User.findOne({ username: req.body.username },
                 function(err, user) {
                     if (err) throw err;
                     if (user) { // username already present, don't allow to create new user
-                        res.json({ success: false, message: 'Username already present' });
-                    } else {
+                        res.status(400).json({ success: false, message: 'Username already present' });
+                    } else if (isValidEmail(req.body.email)) {
                         var newUser = new User({
+                            name: req.body.name,
                             username: req.body.username,
+                            email: req.body.email,
                             password: req.body.password
                         });
                         newUser.save(function(err, newUser) { // check if user is daved in the db 
                             if (err) {
-                                res.json({ success: false, message: 'Failed to save' });
+                                res.status(400).json({ success: false, message: 'Failed to save' });
                             } else {
-                                res.json({ success: true, message: 'Successfully saved', user: newUser });
+                                res.status(200).json({ success: true, message: 'Successfully saved', user: newUser });
                             }
                         })
+                    } else {
+                        res.status(400).json({ success: false, message: 'Email invalid' });
                     }
                 }
             )

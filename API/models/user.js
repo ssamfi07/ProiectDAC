@@ -3,7 +3,15 @@ var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt');
 const { post } = require('../routes/router');
 var userSchema = new Schema({
+    name: {
+        type: String,
+        required: true
+    },
     username: {
+        type: String,
+        required: true
+    },
+    email: {
         type: String,
         required: true
     },
