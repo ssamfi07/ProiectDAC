@@ -37,8 +37,7 @@ class LoginScreenState extends State<Login> {
 
     if (response.statusCode == 200) {
       // redirect to map page
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const HomePage()));
+       Navigator.of(context).push(MaterialPageRoute(builder: (context) => const HomePage(1)));
     }
   }
 

@@ -4,6 +4,7 @@ import 'package:proiect_dac/components/background.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:cross_local_storage/cross_local_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:proiect_dac/home_screen/home_page.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -42,8 +43,8 @@ class RegisterScreenState extends State<Register> {
     await storage.setString("token", response.body);
 
     if (response.statusCode == 200) {
-      // redirect to map page
-
+      // redirect to login page
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const HomePage(0)));
     }
   }
 

@@ -10,14 +10,17 @@ import 'package:proiect_dac/Screens/login/login.dart';
 import 'package:proiect_dac/pages/googlemaps.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  final int index;
+  const HomePage(this.index);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _HomePageState createState() => _HomePageState(index);
 }
 
 class _HomePageState extends State<HomePage> {
   int index = 0;
+  // ignore: non_constant_identifier_names
+  _HomePageState(this.index);
 
   @override
   Widget build(BuildContext context) {
