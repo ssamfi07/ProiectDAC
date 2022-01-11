@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:proiect_dac/Screens/register/register.dart';
 import 'package:proiect_dac/components/background.dart';
@@ -7,6 +9,8 @@ import 'package:cross_local_storage/cross_local_storage.dart';
 import 'package:proiect_dac/home_screen/home_page.dart';
 
 class Login extends StatefulWidget {
+  const Login({Key? key}) : super(key: key);
+
   @override
   LoginScreenState createState() => LoginScreenState();
 }
@@ -51,73 +55,77 @@ class LoginScreenState extends State<Login> {
 
     return Scaffold(
       body: Background(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              alignment: Alignment.centerLeft,
-              padding: const EdgeInsets.symmetric(horizontal: 40),
-              child: const Text(
-                "LOGIN",
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF2661FA),
-                    fontSize: 36),
-                textAlign: TextAlign.left,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                alignment: Alignment.centerLeft,
+                padding: const EdgeInsets.symmetric(horizontal: 40),
+                child: const Text(
+                  "LOGIN",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF2661FA),
+                      fontSize: 36),
+                  textAlign: TextAlign.left,
+                ),
               ),
-            ),
-            SizedBox(height: size.height * 0.03),
-            Container(
-              alignment: Alignment.center,
-              margin: const EdgeInsets.symmetric(horizontal: 40),
-              child: TextField(
-                controller: usernameController,
-                decoration: InputDecoration(labelText: "Username"),
+              SizedBox(height: size.height * 0.03),
+              Container(
+                alignment: Alignment.center,
+                margin: const EdgeInsets.symmetric(horizontal: 40),
+                child: TextField(
+                  controller: usernameController,
+                  decoration: const InputDecoration(labelText: "Username"),
+                ),
               ),
-            ),
-            SizedBox(height: size.height * 0.03),
-            Container(
-              alignment: Alignment.center,
-              margin: const EdgeInsets.symmetric(horizontal: 40),
-              child: TextField(
-                controller: passwordController,
-                decoration: InputDecoration(labelText: "Password"),
-                obscureText: true,
+              SizedBox(height: size.height * 0.03),
+              Container(
+                alignment: Alignment.center,
+                margin: const EdgeInsets.symmetric(horizontal: 40),
+                child: TextField(
+                  controller: passwordController,
+                  decoration: const InputDecoration(labelText: "Password"),
+                  obscureText: true,
+                ),
               ),
-            ),
-            Container(
-              alignment: Alignment.centerRight,
-              margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-              child: const Text(
-                "Forgot your password?",
-                style: TextStyle(fontSize: 12, color: Color(0XFF2661FA)),
+              Container(
+                alignment: Alignment.centerRight,
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                child: const Text(
+                  "Forgot your password?",
+                  style: TextStyle(fontSize: 12, color: Color(0XFF2661FA)),
+                ),
               ),
-            ),
-            SizedBox(height: size.height * 0.05),
-            Container(
-              alignment: Alignment.centerRight,
-              margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-              child: RaisedButton(
-                onPressed: userLogin,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(80.0)),
-                textColor: Colors.white,
-                padding: const EdgeInsets.all(0),
-                child: Container(
-                  alignment: Alignment.center,
-                  height: 50.0,
-                  width: size.width * 0.5,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(80.0),
-                      gradient: const LinearGradient(colors: [
-                        Color.fromARGB(255, 255, 136, 34),
-                        Color.fromARGB(255, 255, 177, 41)
-                      ])),
+              SizedBox(height: size.height * 0.05),
+              Container(
+                alignment: Alignment.centerRight,
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                child: RaisedButton(
+                  onPressed: userLogin,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(80.0)),
+                  textColor: Colors.white,
                   padding: const EdgeInsets.all(0),
-                  child: const Text(
-                    "LOGIN",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: 50.0,
+                    width: size.width * 0.5,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(80.0),
+                        gradient: const LinearGradient(colors: [
+                          Color.fromARGB(255, 255, 136, 34),
+                          Color.fromARGB(255, 255, 177, 41)
+                        ])),
+                    padding: const EdgeInsets.all(0),
+                    child: const Text(
+                      "LOGIN",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
               ),
@@ -137,9 +145,9 @@ class LoginScreenState extends State<Login> {
                       fontWeight: FontWeight.bold,
                       color: Color(0xFF2661FA)),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );

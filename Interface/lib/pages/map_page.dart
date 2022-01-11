@@ -16,39 +16,41 @@ class MapPage extends StatelessWidget {
           child: Stack(
             children: [
               Flexible(
-                child: FlutterMap(
-                  options: MapOptions(
-                    center: LatLng(45.760696, 21.226788),
-                    zoom: 16,
-                  ),
-                  layers: [
-                    TileLayerOptions(
-                      urlTemplate:
-                          "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                      subdomains: ['a', 'b', 'c'],
-                      // attributionBuilder: (_) {
-                      //   return const Text("© OpenStreetMap contributors");
-                      // },
+                child: GestureDetector(
+                  child: FlutterMap(
+                    options: MapOptions(
+                      center: LatLng(45.760696, 21.226788),
+                      zoom: 16,
                     ),
+                    layers: [
+                      TileLayerOptions(
+                        urlTemplate:
+                            "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                        subdomains: ['a', 'b', 'c'],
+                        // attributionBuilder: (_) {
+                        //   return const Text("© OpenStreetMap contributors");
+                        // },
+                      ),
 
-                    // MarkerLayerOptions(
-                    //   markers: [
-                    //     Marker(
-                    //       point: LatLng(45.760696, 21.226788),
-                    //       builder: (context) => MarkerWithTooltip(
-                    //         tooltip: "Yo MADAFAKA "
-                    //             " Radu suge",
-                    //         onTap: () => {},
-                    //         child: const Icon(
-                    //           Icons.location_on,
-                    //           color: Colors.red,
-                    //           size: 35,
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ],
-                    // )
-                  ],
+                      // MarkerLayerOptions(
+                      //   markers: [
+                      //     Marker(
+                      //       point: LatLng(45.760696, 21.226788),
+                      //       builder: (context) => MarkerWithTooltip(
+                      //         tooltip: "Yo MADAFAKA "
+                      //             " Radu suge",
+                      //         onTap: () => {},
+                      //         child: const Icon(
+                      //           Icons.location_on,
+                      //           color: Colors.red,
+                      //           size: 35,
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ],
+                      // )
+                    ],
+                  ),
                 ),
               ),
               // const Flexible(
@@ -75,7 +77,7 @@ class MarkerWithTooltip extends StatefulWidget {
 }
 
 class _MapMarkerState extends State<MarkerWithTooltip> {
-  final key = new GlobalKey();
+  final key = GlobalKey();
 
   @override
   Widget build(BuildContext context) {

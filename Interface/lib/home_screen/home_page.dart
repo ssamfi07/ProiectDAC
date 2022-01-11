@@ -7,6 +7,7 @@ import 'package:proiect_dac/pages/map_page2.dart';
 import 'package:proiect_dac/pages/messages_page.dart';
 import 'package:proiect_dac/pages/settings_page.dart';
 import 'package:proiect_dac/Screens/login/login.dart';
+import 'package:proiect_dac/pages/googlemaps.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -134,7 +135,8 @@ class _HomePageState extends State<HomePage> {
         return Login();
       case 1:
         // return const MapPage();
-        return SimpleMapWithPopups();
+        // return SimpleMapWithPopups();
+        return const MyApp();
       case 2:
         return const MessagesPage();
       case 3:
