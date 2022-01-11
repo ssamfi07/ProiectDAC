@@ -1,9 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:proiect_dac/Screens/register/register.dart';
 import 'package:proiect_dac/components/background.dart';
+import 'package:http/http.dart' as http;
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class Login extends StatefulWidget {
+  @override
+  LoginScreenState createState() => new LoginScreenState();
+}
+
+class LoginScreenState extends State<Login> {
+
+  // Getting value from TextField widget.
+  final usernameController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  Future userLogin() async {
+    String username = usernameController.text;
+    String password = passwordController.text;
+
+    var url = Uri.parse("http://localhost:3000/login");
+    var body = {'username': username, 'password': password};
+
+    var response = await http
+        .post(url, body: {'username': username, 'password': password});
+
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +53,8 @@ class LoginScreen extends StatelessWidget {
             Container(
               alignment: Alignment.center,
               margin: const EdgeInsets.symmetric(horizontal: 40),
-              child: const TextField(
+              child: TextField(
+                controller: usernameController,
                 decoration: InputDecoration(labelText: "Username"),
               ),
             ),
@@ -38,7 +62,8 @@ class LoginScreen extends StatelessWidget {
             Container(
               alignment: Alignment.center,
               margin: const EdgeInsets.symmetric(horizontal: 40),
-              child: const TextField(
+              child: TextField(
+                controller: passwordController,
                 decoration: InputDecoration(labelText: "Password"),
                 obscureText: true,
               ),
@@ -56,7 +81,7 @@ class LoginScreen extends StatelessWidget {
               alignment: Alignment.centerRight,
               margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
               child: RaisedButton(
-                onPressed: () {},
+                onPressed: userLogin,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(80.0)),
                 textColor: Colors.white,

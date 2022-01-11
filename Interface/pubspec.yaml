@@ -38,6 +38,8 @@ dependencies:
   latlong2: ^0.8.1
   bottom_navy_bar: ^6.0.0
   flutter_map_marker_popup: ^2.0.1
+  http: ^0.13.3
+  flutter_secure_storage: ^3.3.1+1
 
 dev_dependencies:
   flutter_test:
