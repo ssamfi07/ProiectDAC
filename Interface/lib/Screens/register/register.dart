@@ -6,6 +6,8 @@ import 'package:cross_local_storage/cross_local_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:proiect_dac/home_screen/home_page.dart';
 
+final navigatorKey = GlobalKey<NavigatorState>();
+
 class Register extends StatefulWidget {
   @override
   RegisterScreenState createState() => RegisterScreenState();
@@ -18,7 +20,7 @@ class RegisterScreenState extends State<Register> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  Future userRegister() async {
+  Future userRegister(BuildContext context) async {
     // storage
     LocalStorageInterface storage = await LocalStorage.getInstance();
 
@@ -36,16 +38,39 @@ class RegisterScreenState extends State<Register> {
     };
 
     var response = await http.post(url, body: body);
-
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
 
-    await storage.setString("token", response.body);
+    nameController.text = "";
+    usernameController.text = "";
+    emailController.text = "";
+    passwordController.text = "";
 
-    if (response.statusCode == 200) {
-      // redirect to login page
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const HomePage(0)));
-    }
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("Register"),
+        content: Text(response.body),
+        actions: [
+          FlatButton(
+            child: Text("Ok"),
+            onPressed: () async {
+              if (response.statusCode == 200) {
+                // redirect to login page
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const HomePage(0)));
+              } else {
+                Navigator.of(context).pop();
+              }
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  void Home(){
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const HomePage(1)));
   }
 
   @override
@@ -58,6 +83,14 @@ class RegisterScreenState extends State<Register> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Container(
+              alignment: Alignment.centerRight,
+              padding: const EdgeInsets.symmetric(horizontal: 40),
+              child:  IconButton(
+                icon: Icon(
+                  Icons.home,),
+                onPressed: Home,
+              ),),
             Container(
               alignment: Alignment.centerLeft,
               padding: const EdgeInsets.symmetric(horizontal: 40),
@@ -112,7 +145,7 @@ class RegisterScreenState extends State<Register> {
               alignment: Alignment.centerRight,
               margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
               child: RaisedButton(
-                onPressed: userRegister,
+                onPressed: () async => userRegister(context),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(80.0)),
                 textColor: Colors.white,

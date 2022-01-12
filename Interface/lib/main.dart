@@ -3,6 +3,8 @@ import 'package:proiect_dac/home_screen/home_page.dart';
 
 void main() => runApp(const MyApp());
 
+final navigatorKey = GlobalKey<NavigatorState>();
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -12,6 +14,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.dark(),
       // home: const MyHomePage(),
       home: const HomePage(1),
+      navigatorKey: navigatorKey,
     );
   }
 }

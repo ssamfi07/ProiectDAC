@@ -35,10 +35,34 @@ class LoginScreenState extends State<Login> {
 
     await storage.setString("token", response.body);
 
-    if (response.statusCode == 200) {
-      // redirect to map page
-       Navigator.of(context).push(MaterialPageRoute(builder: (context) => const HomePage(1)));
-    }
+    usernameController.text = "";
+    passwordController.text = "";
+
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("Login"),
+        content: Text(response.body),
+        actions: [
+          FlatButton(
+            child: Text("Ok"),
+            onPressed: () async {
+              if (response.statusCode == 200) {
+                // redirect to login page
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const HomePage(1)));
+              } else {
+                Navigator.of(context).pop();
+              }
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  void Home(){
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const HomePage(1)));
   }
 
   @override
@@ -50,6 +74,14 @@ class LoginScreenState extends State<Login> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Container(
+              alignment: Alignment.centerRight,
+              padding: const EdgeInsets.symmetric(horizontal: 40),
+              child:  IconButton(
+                icon: Icon(
+                  Icons.home,),
+                onPressed: Home,
+              ),),
             Container(
               alignment: Alignment.centerLeft,
               padding: const EdgeInsets.symmetric(horizontal: 40),
