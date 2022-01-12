@@ -1,3 +1,7 @@
+// ignore_for_file: import_of_legacy_library_into_null_safe
+
+import 'dart:io';
+
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +12,8 @@ import 'package:proiect_dac/pages/messages_page.dart';
 import 'package:proiect_dac/pages/settings_page.dart';
 import 'package:proiect_dac/Screens/login/login.dart';
 import 'package:proiect_dac/pages/googlemaps.dart';
+import 'package:cross_local_storage/cross_local_storage.dart';
+import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
   final int index;
@@ -19,8 +25,33 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int index = 0;
+  late final String? name;
+  late final String? email;
   // ignore: non_constant_identifier_names
-  _HomePageState(this.index);
+  _HomePageState(this.index) {
+    userContext();
+  }
+
+  Future userContext() async {
+    // prepare storage
+    LocalStorageInterface storage = await LocalStorage.getInstance();
+    dynamic data = storage.getString("token");
+    if (data != null) {
+      // fetch user info
+      var url = Uri.parse("http://localhost:3000/getInfo");
+      print(data);
+      var headers = {HttpHeaders.authorizationHeader: data.toString()};
+
+      var response = await http.get(url, headers: headers);
+
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+      // name = response.body.username;
+    } else {
+      name = 'N/A';
+      email = 'N/A';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,14 +68,13 @@ class _HomePageState extends State<HomePage> {
             padding: EdgeInsets.zero,
             children: <Widget>[
               const UserAccountsDrawerHeader(
-                accountName: Text("Mona"),
-                accountEmail: Text("MonaLisa@gmail.com"),
+                accountName: Text(""), // TODO
+                accountEmail: Text(""), // TODO
                 decoration: BoxDecoration(color: Colors.black),
                 currentAccountPicture: CircleAvatar(
                   radius: 50.0,
                   backgroundColor: Color(0xFF778899),
-                  backgroundImage:
-                      NetworkImage("http://tineye.com/images/widgets/mona.jpg"),
+                  backgroundImage: NetworkImage(""),
                 ),
               ),
               ListTile(
